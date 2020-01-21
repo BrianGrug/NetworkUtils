@@ -1,0 +1,7 @@
+server: "HCF"
+Messages:
+  staffchat: "&9(%server%) %player%: %message%"
+  adminchat: "&c(%server%) %player%: %message%"
+  staffjoin: "&9%player% has joined %server%"
+  helpop: "&c[HelpOp] &r&b%player% requested help with %message%"
+  report: "&e%reported% has been reported by %player% on %server% for %reason%"
