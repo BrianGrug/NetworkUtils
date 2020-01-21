@@ -24,8 +24,8 @@ public class Network extends JavaPlugin{
 
         saveDefaultConfig();
 
-        JedisProvider jedisProvider = new JedisProvider();
-        jedisProvider.test();
+        jedisProvider = new JedisProvider();
+        jedisProvider.start();
 
         commandRegister = new CommandRegister();
         commandRegister.registerCommand(new StaffChatCommand(), this, true);

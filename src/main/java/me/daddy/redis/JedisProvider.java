@@ -20,7 +20,7 @@ public class JedisProvider {
             }
         }).start();
     }
-    public void test() {
+    public void start() {
         JedisPubSub jedisPubSub = new JedisPubSub() {
             @Override
             public void onMessage(String channel, String message) {
