@@ -62,7 +62,6 @@ public class CommandRegister {
 
         if (requiresPermission) {
             command.setPermission((owner.getName() + ".command." + executableCommand.getName()).toLowerCase());
-            System.out.println(owner.getName() + ".command." + executableCommand.getName().toLowerCase());
         }
 
         if (executableCommand.getDescription() != null) {

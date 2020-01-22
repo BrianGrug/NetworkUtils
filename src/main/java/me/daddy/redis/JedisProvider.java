@@ -10,17 +10,21 @@ import redis.clients.jedis.JedisPubSub;
 
 public class JedisProvider {
 
-    Jedis jedis = new Jedis();
+    Jedis jedis = new Jedis(Network.getPlugin().getConfig().getString("redis.host"),
+            Network.getPlugin().getConfig().getInt("redis.port"));
 
     public void publish(String channel, String message) {
         new Thread(() -> {
-            try(Jedis publisher = new Jedis()){
-                publisher.publish(channel, message);
-                publisher.quit();
-            }
+            jedis.publish(channel, message);
+            jedis.quit();
         }).start();
     }
+
     public void start() {
+        if(!Network.getPlugin().getConfig().getString("redis.password").isEmpty()){
+            jedis.auth(Network.getPlugin().getConfig().getString("redis.password"));
+        }
+
         JedisPubSub jedisPubSub = new JedisPubSub() {
             @Override
             public void onMessage(String channel, String message) {
@@ -103,15 +107,6 @@ public class JedisProvider {
                         }
                     }
                 });
-            }
-            @Override
-            public void onSubscribe(String channel, int subscribedChannels) {
-                System.out.println("Subscribed from " + channel);
-            }
-
-            @Override
-            public void onUnsubscribe(String channel, int subscribedChannels) {
-
             }
         };
         new Thread(() -> {

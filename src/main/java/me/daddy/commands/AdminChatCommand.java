@@ -21,8 +21,8 @@ public class AdminChatCommand extends ExecutableCommand {
         JedisProvider jedisProvider = new JedisProvider();
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(int i = 0; i < args.length; i++){
-            stringBuilder.append(args[i]).append(" ");
+        for (String arg : args) {
+            stringBuilder.append(arg).append(" ");
         }
 
         String message = Network.getPlugin().getConfig().getString("server") + "///" + sender.getName() + "///" + stringBuilder.toString();

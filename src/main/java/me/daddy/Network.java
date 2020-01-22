@@ -9,6 +9,7 @@ import me.daddy.listeners.PlayerJoinListener;
 import me.daddy.redis.JedisProvider;
 import me.daddy.utils.command.CommandRegister;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.fusesource.jansi.Ansi;
 
 public class Network extends JavaPlugin{
 
@@ -34,5 +35,9 @@ public class Network extends JavaPlugin{
         commandRegister.registerCommand(new ReportCommand(), this, false);
 
         new PlayerJoinListener();
+
+        if(getConfig().getString("server").equals("default-server")){
+            getLogger().warning(Ansi.ansi().fg(Ansi.Color.RED).boldOff().toString() + "Make sure to change the server name in the config!" + Ansi.ansi().reset());
+        }
     }
 }
