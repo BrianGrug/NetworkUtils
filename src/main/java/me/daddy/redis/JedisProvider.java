@@ -8,16 +8,19 @@ import org.bukkit.entity.Player;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
-public class JedisProvider {
+import java.util.concurrent.*;
 
+public class JedisProvider {
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(4);
+    
     Jedis jedis = new Jedis(Network.getPlugin().getConfig().getString("redis.host"),
             Network.getPlugin().getConfig().getInt("redis.port"));
 
     public void publish(String channel, String message) {
-        new Thread(() -> {
+        this.threadPool.execute(() -> {
             jedis.publish(channel, message);
             jedis.quit();
-        }).start();
+        });
     }
 
     public void start() {
@@ -109,12 +112,12 @@ public class JedisProvider {
                 });
             }
         };
-        new Thread(() -> {
+        this.threadPool.execute(() -> {
             try{
                 jedis.subscribe(jedisPubSub, "StaffJoin", "StaffChat", "AdminChat", "Helpop", "Reports");
             }catch (Exception e){
                 e.printStackTrace();
             }
-        }).start();
+        });
     }
 }
